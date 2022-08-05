@@ -1,0 +1,70 @@
+<div class="card m-3">
+    <h5 class="card-header">Please Fill and Submit</h5>
+    <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Text Area</label>
+                    <textarea formControlName="bodyText" rows="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.bodyText.errors }"></textarea>
+                    <div *ngIf="submitted && f.bodyText.errors" class="invalid-feedback">
+                        <div *ngIf="f.bodyText.errors.required">Text content is required</div>
+                        <div *ngIf="f.bodyText.errors.minlength">Text must be at least 6 characters</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Website</label>
+                    <input type="text" formControlName="website" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.website.errors }"/>
+                    <div *ngIf="submitted && f.website.errors" class="invalid-feedback">
+                        <div *ngIf="f.website.errors.required">Website Url is required</div>
+                        <div *ngIf="f.website.errors.mustMatch">Website must match.
+                        </div>
+                    </div>
+                    <div>
+                      <small>
+                      <a href="#" (click)="onDefaultUrl()">Click Here</a> to use available Url ({{this.url}})
+        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button class="btn btn-primary mr-1">Submit</button>
+                <button class="btn btn-secondary" type="reset" (click)="onReset()">Reset</button>
+            </div>
+        </form>
+    </div>
+    <div  ><hr/>
+        <div class="card-header" *ngIf="words">
+  <p><b>Words :</b> {{this.words}}</p>
+</div>
+    </div>
+
+      <!--  list table, it hides when there is no Data -->
+  <div *ngIf="listWords.length !== 0">
+  <br/>
+    <h3 class="card-header mb-3 text-center">Top 10 Word List</h3>
+
+    <div class="col-md-12">
+      <table class="table table-bordered">
+        <thead style="background-color: rgb(29, 108, 199)">
+          <tr>
+            <th scope="col" width="50px">No.</th>
+            <th scope="col">Word</th>
+            <th scope="col">Occurences Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let listWord of listWords; let i= index">
+            <td>{{ i+1 }}.</td>
+            <td>{{ listWord.word }}</td>
+            <td>{{ listWord.occurences }}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+</div>
+    
+</div>
