@@ -1,8 +1,14 @@
 <H1>Angular 12 with Unit Test</H1>
 
+<H3>Show Live Application</H3>
+<a href="https://putra-code.000webhostapp.com/angulartest/">https://putra-code.000webhostapp.com/angulartest</a>
+
+<h1>Screenshoot</h1>
+<img src="https://putra-code.000webhostapp.com/angulartest/share/screenshot.png">
+
 <H3>How to use code</H3>
 Clone this Github repository.
-Run <b>npm install</b>
+then Run <b>npm install</b>
 
 <HR/>
 <H3>Development server</H3>
