@@ -4,7 +4,8 @@
 <a href="https://putra-code.000webhostapp.com/angulartest/">https://putra-code.000webhostapp.com/angulartest</a>
 
 <h1>Screenshoot</h1>
-<img src="https://putra-code.000webhostapp.com/angulartest/share/screenshot.png">
+<img src="https://putra-code.000webhostapp.com/angulartest/share/screenshot.png"><br/>
+<img src="https://putra-code.000webhostapp.com/angulartest/share/screenshot2.png">
 
 <H3>How to use code</H3>
 Clone this Github repository.
