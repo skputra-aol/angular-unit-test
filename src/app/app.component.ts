@@ -1,86 +1,83 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from './services/post.service';
-import { Observable, of, throwError } from 'rxjs';
 import { MatchUrl } from './helpers/must-match.validator';
-
-import { HttpClient } from '@angular/common/http';
 import { Words, DataDescription } from './model/words';
-import { STRING_TYPE } from '@angular/compiler';
+import { environment } from './../environments/environment';
 
 @Component({ selector: 'app-root', templateUrl: 'app.component.html' })
 export class AppComponent implements OnInit {
-  registerForm!: FormGroup;
+  regForm!: FormGroup;
   submitted: boolean = false;
+  flagBodyText: any = "" ;
+  flagWebsite: any = null;
 
-  urlOther: string = 'http://jsonplaceholder.typicode.com/posts/';
-  url: string = 'http://jsonplaceholder.typicode.com/posts/';
-  words: string = '';
-  listWords: any = [];
-  runWords!: Observable<any>;
-
+  url: string = environment.apiURL;
   datas: any=[];
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpClient: HttpClient,
-    private service: PostService
-  ) {}
+    public service: PostService
+  ) {
+  }
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group(
+    this.regForm = this.formBuilder.group(
       {
+        type: ['website', [Validators.required]],
         bodyText: ['', [Validators.required, Validators.minLength(6)]],
-        website: ['', Validators.required],
+        website: [this.url+'1',[Validators.required]]
       },
       {
-        validator: MatchUrl('website', this.url),
+        validator: MatchUrl('website', this.url, 'type'),
       }
     );
+    
   }
 
   get f() {
-    return this.registerForm.controls;
+    return this.regForm.controls;
   }
 
-  onSubmit2() {
-    this.submitted = true;
-
-    if (this.registerForm.invalid) {
-      return;
+  id = () => new Date().getSeconds()+1;
+  
+  disableType()
+  {
+    if(this.f['type'].value=="website")
+    {
+      this.flagBodyText="";
+      this.flagWebsite= null;
+      this.f['bodyText'].setErrors(null);
     }
-
-    this.onSubmit();
-
+    else
+    {
+      this.flagBodyText=null;
+      this.flagWebsite= "";
+      this.f['website'].setErrors(null);
+    }
   }
-
-  onSubmit(){
-
+  
+  onSubmit()
+  {
     this.submitted = true;
 
-    if (this.registerForm.invalid) {
+    if (this.regForm.invalid) {
       return;
     }
     
-    this.datas= this.service.getPostWords(this.f['website'].value).subscribe(dt=>{
-      
-      this.words=(<DataDescription>dt).body;
-      this.service.countWords(this.words);
-      this.registerForm.controls['bodyText'].setValue(this.words);
-      this.listWords = this.service.getWordsCount();
-
-    });
-
+    if(this.f['type'].value=="website")
+    this.datas= this.service.getDataWords(this.f['website'].value);
+    else
+    this.service.listWords=this.service.countWords(this.f['bodyText'].value.toLowerCase());
+  
   }
-
+  
   onReset() {
-    this.submitted = false;
-    this.registerForm.reset();
-    this.words = '';
-    this.listWords = [];
+    window.location.reload();
   }
+  
   onDefaultUrl() {
     this.submitted = false;
-    this.registerForm.controls['website'].setValue(this.url+ new Date().getSeconds());
+    this.f['website'].setValue(this.url+this.id());
   }
 }

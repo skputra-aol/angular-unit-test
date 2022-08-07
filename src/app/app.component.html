@@ -1,50 +1,70 @@
 <div class="card m-3">
     <h5 class="card-header">Please Fill and Submit</h5>
     <div class="card-body">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
             <div class="form-row">
                 <div class="form-group col">
-                    <label>Text Area</label>
-                    <textarea formControlName="bodyText" rows="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.bodyText.errors }"></textarea>
+                    <div class="form-check form-switch">
+  <input class="form-check-input" type="radio" value="bodyText" formControlName="type"
+  (change)="disableType()">
+  <label class="form-check-label" for="mySwitch">From Text</label>
+</div>
+                    <textarea
+                    [(ngModel)]="service.wordsData"
+                     formControlName="bodyText" rows="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.bodyText.errors }"
+                      [attr.disabled]="flagBodyText"
+                      (change)="disableType()"
+                      placeholder="Please switch on and fill this text area for check validation"
+                      ></textarea>
                     <div *ngIf="submitted && f.bodyText.errors" class="invalid-feedback">
                         <div *ngIf="f.bodyText.errors.required">Text content is required</div>
                         <div *ngIf="f.bodyText.errors.minlength">Text must be at least 6 characters</div>
                     </div>
+                        <div  ><hr/>
+        <div class="card-header" *ngIf="service.wordsData">
+  <p><b>Words :</b> {{this.service.wordsData}}</p><p><b>Length :</b>{{this.service.wordsData.length}}</p>
+</div>
+    </div><br/>
                 </div>
+                
             </div>
+            
             <div class="form-row">
                 <div class="form-group col">
-                    <label>Website</label>
-                    <input type="text" formControlName="website" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.website.errors }"/>
-                    <div *ngIf="submitted && f.website.errors" class="invalid-feedback">
+                    
+                    <div class="form-check form-switch">
+  <input class="form-check-input" type="radio" formControlName="type" value="website" (change)="disableType()"
+  >
+  <label class="form-check-label" for="mySwitch">From Website</label>
+</div>
+                    <input type="text" formControlName="website" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.website.errors }"
+                     [attr.disabled]="flagWebsite"
+                     (change)="disableType()"
+                     />
+                    <div *ngIf="f.website.errors" class="invalid-feedback">
                         <div *ngIf="f.website.errors.required">Website Url is required</div>
                         <div *ngIf="f.website.errors.mustMatch">Website must match.
                         </div>
                     </div>
                     <div>
                       <small>
-                      <a href="#" (click)="onDefaultUrl()">Click Here</a> to use available Url ({{this.url}})
+                      <a href="#" (click)="onDefaultUrl()">Click Here</a> to use available Url with different id (ex : {{this.url}}1 [id])
         </small>
                     </div>
                 </div>
             </div>
-            
+            <br/>
             <div class="text-center">
-                <button class="btn btn-primary mr-1">Submit</button>
+                <button class="btn btn-primary mr-1">Submit</button>&nbsp;
                 <button class="btn btn-secondary" type="reset" (click)="onReset()">Reset</button>
             </div>
         </form>
     </div>
-    <div  ><hr/>
-        <div class="card-header" *ngIf="words">
-  <p><b>Words :</b> {{this.words}}</p>
-</div>
-    </div>
 
       <!--  list table, it hides when there is no Data -->
-  <div *ngIf="listWords.length !== 0">
+    <div *ngIf="service.listWords.length !== 0">
   <br/>
-    <h3 class="card-header mb-3 text-center">Top 10 Word List</h3>
+    <h3 class="card-header mb-3 text-center">Top 10 Used Word List</h3>
 
     <div class="col-md-12">
       <table class="table table-bordered">
@@ -56,7 +76,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let listWord of listWords; let i= index">
+          <tr *ngFor="let listWord of service.listWords; let i= index">
             <td>{{ i+1 }}.</td>
             <td>{{ listWord.word }}</td>
             <td>{{ listWord.occurences }}</td>

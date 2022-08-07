@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Words} from '../model/words';
+import { Words, DataDescription} from '../model/words';
 import { Observable} from 'rxjs';
 
   
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PostService {
-  private wordsData: string = '';
-  private listWords!: Array<Words>; 
+  wordsData: string = '';
+  listWords: Array<Words>=[]; 
 
   constructor(
     private httpClient: HttpClient,
   ) {}
 
-  getWords() {
-    return this.wordsData;
-  }
-  getWordsCount() {
-    return this.listWords;
-  }
+  
+  getDataWords(url: string): any {
+    return this.httpClient.get<any>(url).subscribe(dt=>{
+           this.wordsData=(<DataDescription>dt).body.toLowerCase();
+this.listWords = this.countWords(this.wordsData);
 
+    });
+  }
+  
   countWords(text: string): Array<Words> {
     var wordCounts: any = {};
     var words = text.split(/\b/);
@@ -45,7 +47,7 @@ export class PostService {
     return dt;
   }
 
-  getPostWords(url: string): Observable<any> {
+  getPost(url: string): Observable<any> {
     return this.httpClient.get<any>(url);
   }
 }
