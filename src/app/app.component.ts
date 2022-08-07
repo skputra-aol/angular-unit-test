@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from './services/post.service';
 import { MatchUrl } from './helpers/must-match.validator';
-import { Words, DataDescription } from './model/words';
 import { environment } from './../environments/environment';
 
 @Component({ selector: 'app-root', templateUrl: 'app.component.html' })
@@ -26,7 +25,7 @@ export class AppComponent implements OnInit {
       {
         type: ['website', [Validators.required]],
         bodyText: ['', [Validators.required, Validators.minLength(6)]],
-        website: [this.url+'1',[Validators.required]]
+        website: ['',[Validators.required]]
       },
       {
         validator: MatchUrl('website', this.url, 'type'),
@@ -39,7 +38,7 @@ export class AppComponent implements OnInit {
     return this.regForm.controls;
   }
 
-  id = () => new Date().getSeconds()+1;
+  id = () => "";
   
   disableType()
   {

@@ -18,7 +18,7 @@ export class PostService {
   
   getDataWords(url: string): any {
     return this.httpClient.get<any>(url).subscribe(dt=>{
-           this.wordsData=(<DataDescription>dt).body.toLowerCase();
+           this.wordsData=(<DataDescription>dt).description.toLowerCase();
 this.listWords = this.countWords(this.wordsData);
 
     });

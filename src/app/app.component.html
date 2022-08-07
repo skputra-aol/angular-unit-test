@@ -1,5 +1,5 @@
 <div class="card m-3">
-    <h5 class="card-header">Please Fill and Submit</h5>
+    <h5 class="card-header">Please select source. Then Fill and Submit</h5>
     <div class="card-body">
         <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
             <div class="form-row">
@@ -14,7 +14,7 @@
                      formControlName="bodyText" rows="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.bodyText.errors }"
                       [attr.disabled]="flagBodyText"
                       (change)="disableType()"
-                      placeholder="Please switch on and fill this text area for check validation"
+                      placeholder="Please enable switch on and fill this text area for check validation"
                       ></textarea>
                     <div *ngIf="submitted && f.bodyText.errors" class="invalid-feedback">
                         <div *ngIf="f.bodyText.errors.required">Text content is required</div>
@@ -48,7 +48,7 @@
                     </div>
                     <div>
                       <small>
-                      <a href="#" (click)="onDefaultUrl()">Click Here</a> to use available Url with different id (ex : {{this.url}}1 [id])
+                      <a href="#" (click)="onDefaultUrl()">Click Here</a> to use default Url ({{this.url}})
         </small>
                     </div>
                 </div>
@@ -64,11 +64,11 @@
       <!--  list table, it hides when there is no Data -->
     <div *ngIf="service.listWords.length !== 0">
   <br/>
-    <h3 class="card-header mb-3 text-center">Top 10 Used Word List</h3>
+    <h3 class="card-header mb-3 text-center">Top 10 Used Word List <h4>(including symbols)</h4></h3>
 
     <div class="col-md-12">
       <table class="table table-bordered">
-        <thead style="background-color: rgb(29, 108, 199)">
+        <thead style="background-color: rgb(76, 143, 219)">
           <tr>
             <th scope="col" width="50px">No.</th>
             <th scope="col">Word</th>
