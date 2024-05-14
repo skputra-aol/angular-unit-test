@@ -57,7 +57,7 @@ describe('countWords testing ..', () => {
     expect(expectedWords.length).toEqual(10);
   });
 
-  it('should be match items result', () => {
+  it('should be match items results', () => {
     expect(expectedWords).toEqual(serviceWordsResult);
   });
 });
